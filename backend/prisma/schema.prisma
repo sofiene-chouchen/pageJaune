@@ -12,7 +12,7 @@ datasource db {
 
 model Categorie {
   id    String @id @default(uuid())
-  name  String
+  name  String @unique
   image String
   Jobs  Job[]
 }
@@ -23,10 +23,10 @@ model Job {
   email       String
   description String
   phone       Int
-  Latitude    Int
-  Longitude   Int
+  latitude    Float
+  longitude   Float
   evaluation  Float?
   // commantaire String[]
-  categorie   Categorie @relation(fields: [categorieId], references: [id])
+  categorie   Categorie @relation(fields: [categorieId], references: [name])
   categorieId String
 }
