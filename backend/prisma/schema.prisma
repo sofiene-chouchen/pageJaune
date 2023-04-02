@@ -18,15 +18,15 @@ model Categorie {
 }
 
 model Job {
-  id          String    @id @default(uuid())
-  name        String    @unique
-  email       String
-  description String
-  phone       Int
-  latitude    Float
-  longitude   Float
-  evaluation  Float?
-  // commantaire String[]
-  categorie   Categorie @relation(fields: [categorieId], references: [name])
-  categorieId String
+  id           String    @id @default(uuid())
+  name         String    @unique
+  email        String
+  description  String
+  phone        Int
+  latitude     Float
+  longitude    Float
+  evaluation   Float?
+  localisation String
+  categorie    Categorie @relation(fields: [categorieId], references: [name])
+  categorieId  String
 }

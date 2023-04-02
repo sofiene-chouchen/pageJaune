@@ -16,6 +16,7 @@ route.post("/", async (req, res) => {
       email: "contact@tags.tn",
       phone: 55560746,
       description: "cafe mix marina ",
+      localisation: "marina monastir 5000",
       latitude: 444.22,
       longitude: 333.33,
       categorieId: "cafe",
