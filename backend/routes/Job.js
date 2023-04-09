@@ -25,4 +25,9 @@ route.post("/", async (req, res) => {
   res.send(newJob);
 });
 
+route.delete("/", async (req, res) => {
+  const job = await prisma.job.deleteMany();
+  res.status(200).send("deleted succusefuly");
+});
+
 module.exports = route;
