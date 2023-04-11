@@ -1,19 +1,15 @@
 import "./App.css";
-import Data from "./components/Data";
-import Footer from "./components/Footer";
-import Hero from "./components/Hero";
-import NavBar from "./components/NavBar";
-import Offre from "./components/Offre";
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import First from "./pages/First";
+import Second from "./pages/Second";
 
 function App() {
   return (
-    <div className="">
-      <NavBar />
-      <Hero />
-      <Data />
-      <Offre />
-      <Footer />
-    </div>
+    <Routes>
+      <Route path="/" element={<First />} />
+      <Route path="/categories/:name" element={<Second />} />
+    </Routes>
   );
 }
 
