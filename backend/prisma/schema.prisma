@@ -23,6 +23,7 @@ model Job {
   email        String
   description  String
   phone        Int
+  vile         String
   latitude     Float
   longitude    Float
   evaluation   Float?

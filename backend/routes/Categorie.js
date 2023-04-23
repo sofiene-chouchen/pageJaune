@@ -4,10 +4,6 @@ const route = express.Router();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-route.delete("/", async (req, res) => {
-  const categore = await prisma.categorie.deleteMany();
-  res.status(200).json({ message: "Categories deleted successfully" });
-});
 route.post("/add", async (req, res) => {
   const addone = await prisma.categorie.create({
     data: {
@@ -16,7 +12,7 @@ route.post("/add", async (req, res) => {
         "https://res.cloudinary.com/dif6os1pq/image/upload/v1681011550/pagejaune/mecanicien_1_velvgu.jpg",
     },
   });
-  res.status(200).send("succesfuly");
+  res.status(200).send(addone);
 });
 route.post("/", async (req, res) => {
   const categorie = await prisma.categorie.createMany({
@@ -61,6 +57,11 @@ route.post("/", async (req, res) => {
         image:
           "https://res.cloudinary.com/dif6os1pq/image/upload/v1681007315/pagejaune/travel_1_wg0fff.jpg",
       },
+      {
+        name: "mécanicien",
+        image:
+          "https://res.cloudinary.com/dif6os1pq/image/upload/v1681011550/pagejaune/mecanicien_1_velvgu.jpg",
+      },
     ],
   });
   res.send(categorie);
@@ -71,4 +72,8 @@ route.get("/", async (req, res) => {
   res.send(categorie);
 });
 
+route.delete("/", async (req, res) => {
+  const categore = await prisma.categorie.deleteMany();
+  res.status(200).json({ message: "Categories deleted successfully" });
+});
 module.exports = route;
