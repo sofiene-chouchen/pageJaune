@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "../App.css";
 import NavBar from "../components/NavBar";
 import { useParams } from "react-router-dom";
 import { Tabs } from "antd";
@@ -7,9 +8,10 @@ import axios from "axios";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import L from "leaflet";
 
-export default function Second() {
+function Second() {
   const { name } = useParams();
   const [data, setData] = useState([]);
 
@@ -21,6 +23,7 @@ export default function Second() {
     fetchData();
   }, [name]);
   console.log(data);
+  const position = [35.779481194422694, 10.83021625071606];
   return (
     <>
       <NavBar />
@@ -61,23 +64,17 @@ export default function Second() {
               </div>
             </Tabs.TabPane>
             <Tabs.TabPane tab="Map" key="2">
-              <LoadScript googleMapsApiKey="AIzaSyCBeskUnJsrUU5RFdq4hL-wi-ltxBYJIU4">
-                <GoogleMap
-                  mapContainerStyle={{ height: "700px", width: "100%" }}
-                  center={{ lat: 35.779481194422694, lng: 10.83021625071606 }}
-                  zoom={10}
-                >
-                  {data.map((item) => (
-                    <Marker
-                      key={item.id}
-                      position={{
-                        lat: item.latitude,
-                        lng: item.longitude,
-                      }}
-                    />
-                  ))}
-                </GoogleMap>
-              </LoadScript>
+              <MapContainer center={position} zoom={10}>
+                <TileLayer
+                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                {data.map((item) => (
+                  <Marker position={[item.latitude, item.longitude]}>
+                    <Popup>{item.name}</Popup>
+                  </Marker>
+                ))}
+              </MapContainer>
             </Tabs.TabPane>
           </Tabs>
         </div>
@@ -85,3 +82,9 @@ export default function Second() {
     </>
   );
 }
+let DefaultIcon = L.icon({
+  iconUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-icon.png",
+});
+L.Marker.prototype.options.icon = DefaultIcon;
+
+export default Second;
