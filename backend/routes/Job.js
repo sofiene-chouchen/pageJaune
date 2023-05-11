@@ -59,11 +59,10 @@ route.delete("/", async (req, res) => {
 route.patch("/", async (req, res) => {
   const update = await prisma.job.update({
     where: {
-      name: "Regency",
+      name: "zitouna",
     },
     data: {
-      latitude: 35.779487062712825,
-      longitude: 10.830206187491207,
+     vile :"monastir"
     },
   });
   res.status(200).send("updated");

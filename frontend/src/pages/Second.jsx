@@ -14,6 +14,8 @@ import L from "leaflet";
 function Second() {
   const { name } = useParams();
   const [data, setData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [vile, setVile] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,27 +24,59 @@ function Second() {
     };
     fetchData();
   }, [name]);
-  console.log(data);
-  const position = [35.779481194422694, 10.83021625071606];
+
+  const position = [33.886917, 9.537499];
+
+  const filteredData = data.filter((item) => {
+    if (
+      (vile === "" || item.vile === vile) &&
+      item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    ) {
+      return true;
+    }
+    return false;
+  });
+
   return (
     <>
       <NavBar />
       <div className="container m-auto text-center mt-10">
         <p className="uppercase text-2xl">- {name} -</p>
       </div>
-      <div className=" ml-">
-        <div className="container m-auto  ">
-          <Tabs defaultActiveKey="1" className="text-center ">
-            <Tabs.TabPane tab="List " key="1">
-              <div className="flex justify-between">
-                {data.map((item) => (
-                  <div key={item.id} className="mb-7 ">
+
+      <div className="">
+        <div className="container m-auto ">
+          <div className="flex justify-center items-center mb-5 flex-wrap">
+            <input
+              type="text"
+              placeholder="Search"
+              className="border rounded p-2 w-60"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <select
+              className="border rounded p-2 ml-3"
+              value={vile}
+              onChange={(e) => setVile(e.target.value)}
+            >
+              <option value="">Localisation</option>
+              <option value="monastir">monastir</option>
+              <option value="sousse">Sousse</option>
+              <option value="tunis">Tunis</option>
+            </select>
+          </div>
+
+          <Tabs defaultActiveKey="1" className="text-center">
+            <Tabs.TabPane tab="List" key="1">
+              <div className="flex justify-between flex-wrap">
+                {filteredData.map((item) => (
+                  <div key={item.id} className="mb-7">
                     <Card
                       title={item.name}
                       style={{
                         width: 700,
                       }}
-                      className="shadow-2xl mt-7 text-xl "
+                      className="shadow-2xl mt-7 text-xl"
                     >
                       <div className="ml-3">
                         <div className="flex mb-3 ">
@@ -64,7 +98,7 @@ function Second() {
               </div>
             </Tabs.TabPane>
             <Tabs.TabPane tab="Map" key="2">
-              <MapContainer center={position} zoom={10}>
+              <MapContainer center={position} zoom={7}>
                 <TileLayer
                   attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
